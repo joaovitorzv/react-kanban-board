@@ -12,8 +12,8 @@ import Header from '../../common/components/Header'
 import Stack from '../../common/components/Stack'
 import Task from '../../common/components/Task'
 
-import tasksReducer, { } from './reducers/tasksReducer'
-import TaskDispatchTypes, { StackState } from './reducers/types'
+import tasksReducer from './reducers/tasksReducer'
+import TaskDispatchTypes, { StackState, TasksActions } from './reducers/types'
 
 import './styles.scss'
 import '../../styles/_vars.scss'
@@ -57,12 +57,25 @@ const initialState: StackState = stacksMock
 const Tasks: React.FC = () => {
   const [stacks, dispatch] = useReducer(tasksReducer, initialState)
 
+  const actions: TasksActions = {
+    addItem: (stackId, task) => {
+      dispatch({ type: TaskDispatchTypes.ADD_TASK, stackId, task })
+    },
+    moveItem: (result) => {
+      console.log('loiros', result)
+      dispatch({ type: TaskDispatchTypes.MOVE_TASK, result })
+    },
+    removeItem: (stackId, task) => {
+      dispatch({ type: TaskDispatchTypes.REMOVE_TASK, stackId, task })
+    }
+  }
+
   return (
     <>
       <Header />
       <div className='stacks-container'>
         <DragDropContext
-          onDragEnd={(result) => dispatch({ type: TaskDispatchTypes.MOVE_TASK, result, stacks })}
+          onDragEnd={(result) => actions.moveItem(result)}
         >
           {Object.entries(stacks).map(([stackId, stack], idx) => {
             return (
@@ -71,6 +84,8 @@ const Tasks: React.FC = () => {
                 icon={stack.icon}
                 name={stack.name}
                 key={stackId}
+                actions={actions}
+                stackId={stackId}
               >
                 <Droppable droppableId={stackId} key={stackId}>
                   {(provided, snapshot) => {
@@ -79,7 +94,6 @@ const Tasks: React.FC = () => {
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{
-                          minHeight: 200,
                           backgroundColor: snapshot.isDraggingOver
                             ? '#fff'
                             : '#f7f7f7'
@@ -95,8 +109,9 @@ const Tasks: React.FC = () => {
                               <Task
                                 provided={provided}
                                 snapshot={snapshot}
-                                title={task.title}
-                                description={task.description}
+                                task={task}
+                                stackId={stackId}
+                                actions={actions}
                               />
                             )}
                           </Draggable>

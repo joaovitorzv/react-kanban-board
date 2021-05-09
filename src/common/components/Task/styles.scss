@@ -1,6 +1,10 @@
 @import '../../../styles/vars';
 
 .task-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   padding: 1rem;
   cursor: grab;
   border-bottom: 1px solid $white-1;
@@ -12,5 +16,21 @@
 
   p {
     font-size: 14px;
+  }
+
+  &:hover {
+    .delete-task {
+      display: block;
+    }
+  }
+
+  .delete-task {
+    padding: .5rem;
+    display: none;
+    cursor: pointer;
+    
+    svg {
+      fill: $primaryColorDarker;
+    }
   }
 }

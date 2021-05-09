@@ -1,28 +1,18 @@
 import React, { Dispatch, SetStateAction, useRef } from 'react'
 import { DraggableProvided, DraggableStateSnapshot, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd'
+import { AiOutlineDelete } from 'react-icons/ai'
 
+import { TasksActions, TaskState } from '../../../routes/Tasks/reducers/types'
 
 import './styles.scss'
 import '../../../styles/_vars.scss';
 
-export enum StatusTypes {
-  INBOX,
-  NOT_STARTED,
-  IN_PROGRESS,
-  DONE
-}
-
-export interface ITask {
-  title: string;
-  description: string;
-  status?: StatusTypes;
-}
-
 interface Props {
-  title: string;
-  description: string;
+  task: TaskState;
+  stackId: string;
   provided: DraggableProvided;
   snapshot: DraggableStateSnapshot;
+  actions: TasksActions;
 }
 
 const Task: React.FC<Props> = (props) => {
@@ -41,8 +31,16 @@ const Task: React.FC<Props> = (props) => {
         ...props.provided.draggableProps.style
       }}
     >
-      <h3>{props.title}</h3>
-      <p>{props.description}</p>
+      <div>
+        <h3>{props.task.title}</h3>
+        <p>{props.task.description}</p>
+      </div>
+      <button
+        className='delete-task'
+        onClick={() => props.actions.removeItem(props.stackId, props.task)}
+      >
+        <AiOutlineDelete size={20} />
+      </button>
     </div>
   );
 }

@@ -1,35 +1,50 @@
 import React from 'react'
 import { DropResult } from 'react-beautiful-dnd'
-import { ITask } from '../../../common/components/Task'
-import TaskDispatchTypes, { StackState } from './types'
+import TaskDispatchTypes, { StackState, TaskState } from './types'
 
 interface TasksAction {
   type: TaskDispatchTypes;
-  result: DropResult;
-  stacks: StackState;
+  result?: DropResult;
+  task?: TaskState
+  stackId?: string;
 }
 
 function tasksReducer(state: StackState, action: TasksAction): StackState {
+  if (!action.stackId) return state
+
+  const sourceStack = state[action.stackId]
+  const sourceTasks = [...sourceStack.tasks]
+
   switch (action.type) {
     case TaskDispatchTypes.ADD_TASK:
+      if (!action.task) return state
+
+      sourceTasks.push({
+        id: action.task?.id,
+        title: action.task?.title,
+        description: action.task?.description
+      })
+
       return {
-        tasks: { ...state.tasks }
+        ...state,
+        [action.stackId]: {
+          ...sourceStack,
+          tasks: sourceTasks
+        }
       }
     case TaskDispatchTypes.MOVE_TASK:
-      if (!action.result.destination) {
-        return state
-      }
-      const { source, destination } = action.result
+      const { source, destination } = action.result!
+      if (!destination) return state
 
       if (source.droppableId !== destination.droppableId) {
-        const sourceStack = action.stacks[source.droppableId]
-        const destStack = action.stacks[destination.droppableId]
+        const sourceStack = state[source.droppableId]
+        const destStack = state[destination.droppableId]
         const sourceTasks = [...sourceStack.tasks]
         const destTasks = [...destStack.tasks]
         const [removed] = sourceTasks.splice(source.index, 1)
         destTasks.splice(destination.index, 0, removed)
         return {
-          ...action.stacks,
+          ...state,
           [source.droppableId]: {
             ...sourceStack,
             tasks: sourceTasks
@@ -40,17 +55,29 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
           }
         }
       } else {
-        const stack = action.stacks[source.droppableId]
+        const stack = state[source.droppableId]
         const copiedTasks = [...stack.tasks]
         const [removed] = copiedTasks.splice(source.index, 1)
         copiedTasks.splice(destination.index, 0, removed)
 
         return {
-          ...action.stacks,
+          ...state,
           [source.droppableId]: {
             ...stack,
             tasks: copiedTasks
           }
+        }
+      }
+    case TaskDispatchTypes.REMOVE_TASK:
+      if (!action.task) return state
+
+      const uptatedTasks = sourceTasks.filter(task => task.id !== action.task?.id)
+
+      return {
+        ...state,
+        [action.stackId]: {
+          ...sourceStack,
+          tasks: uptatedTasks
         }
       }
     default:
