@@ -1,0 +1,16 @@
+@import '../../../styles/vars';
+
+.task-container {
+  padding: 1rem;
+  cursor: grab;
+  border-bottom: 1px solid $white-1;
+  
+  h3 {
+    font-size: 16px;
+    margin-bottom: .4rem;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}

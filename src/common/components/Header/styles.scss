@@ -1,0 +1,15 @@
+@import '../../../styles/vars';
+
+header {
+  width: 100%;
+  padding: 1rem 2rem;
+  
+  h1 {
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  color: $primaryColor;
+  background-color: $white;
+  border-bottom: 3px solid $white-1;
+}
