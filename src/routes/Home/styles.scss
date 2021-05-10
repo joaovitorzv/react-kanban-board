@@ -77,11 +77,15 @@
       text-align: center;
 
       h2 {
-        font-size: 28px;
+        font-size: 24px;
       }
       p {
         font-size: 14px;
       }
+    }
+
+    &__illustration {
+      height: 200px;
     }
 
     &__presentation {

@@ -1,13 +1,5 @@
 import { StackState } from '../routes/Tasks/reducers/types'
 import { v4 } from 'uuid'
-import {
-  AiOutlineInbox,
-  AiOutlineCoffee,
-  AiOutlineHourglass,
-  AiOutlineFire,
-} from 'react-icons/ai'
-
-const key = 'persist:tasks'
 
 const stacksMock = {
   [v4()]: {
@@ -35,6 +27,7 @@ const stacksMock = {
     tasks: []
   }
 }
+const key = 'persist:tasks'
 
 const StacksStorage = {
   getStacks: () => {
