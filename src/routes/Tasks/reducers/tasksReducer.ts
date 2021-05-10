@@ -1,6 +1,6 @@
-import React from 'react'
 import { DropResult } from 'react-beautiful-dnd'
 import TaskDispatchTypes, { StackState, TaskState } from './types'
+import StacksStorage from '../../../services/stacksStorage'
 
 interface TasksAction {
   type: TaskDispatchTypes;
@@ -10,14 +10,12 @@ interface TasksAction {
 }
 
 function tasksReducer(state: StackState, action: TasksAction): StackState {
-  if (!action.stackId) return state
-
-  const sourceStack = state[action.stackId]
+  const sourceStack = state[action.stackId || action.result!.source.droppableId]
   const sourceTasks = [...sourceStack.tasks]
 
   switch (action.type) {
     case TaskDispatchTypes.ADD_TASK:
-      if (!action.task) return state
+      if (!action.task || !action.stackId) return state
 
       sourceTasks.push({
         id: action.task?.id,
@@ -28,7 +26,7 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
       return {
         ...state,
         [action.stackId]: {
-          ...sourceStack,
+          ...state[action.stackId],
           tasks: sourceTasks
         }
       }
@@ -37,7 +35,6 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
       if (!destination) return state
 
       if (source.droppableId !== destination.droppableId) {
-        const sourceStack = state[source.droppableId]
         const destStack = state[destination.droppableId]
         const sourceTasks = [...sourceStack.tasks]
         const destTasks = [...destStack.tasks]
@@ -55,28 +52,27 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
           }
         }
       } else {
-        const stack = state[source.droppableId]
-        const copiedTasks = [...stack.tasks]
+        const copiedTasks = [...sourceStack.tasks]
         const [removed] = copiedTasks.splice(source.index, 1)
         copiedTasks.splice(destination.index, 0, removed)
 
         return {
           ...state,
           [source.droppableId]: {
-            ...stack,
+            ...sourceStack,
             tasks: copiedTasks
           }
         }
       }
     case TaskDispatchTypes.REMOVE_TASK:
-      if (!action.task) return state
+      if (!action.task || !action.stackId) return state
 
       const uptatedTasks = sourceTasks.filter(task => task.id !== action.task?.id)
 
       return {
         ...state,
         [action.stackId]: {
-          ...sourceStack,
+          ...state[action.stackId],
           tasks: uptatedTasks
         }
       }

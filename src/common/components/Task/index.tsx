@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useRef } from 'react'
-import { DraggableProvided, DraggableStateSnapshot, DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd'
+import React from 'react'
+import { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { AiOutlineDelete } from 'react-icons/ai'
 
 import { TasksActions, TaskState } from '../../../routes/Tasks/reducers/types'

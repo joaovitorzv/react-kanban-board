@@ -1,5 +1,12 @@
 import React, { ReactNode, useState } from 'react'
 import { v4 } from 'uuid'
+import {
+  AiOutlineInbox,
+  AiOutlineCoffee,
+  AiOutlineHourglass,
+  AiOutlineFire,
+} from 'react-icons/ai'
+
 import { TasksActions } from '../../../routes/Tasks/reducers/types'
 import { useToggle } from '../../../utils'
 
@@ -9,9 +16,16 @@ import '../../../styles/_global.scss'
 interface Props {
   name: string;
   colorClass: string;
-  icon: ReactNode;
+  icon: 'inbox' | 'notStarted' | 'inProgress' | 'done';
   actions: TasksActions
   stackId: string;
+}
+
+const icons = {
+  inbox: <AiOutlineInbox size={20} />,
+  notStarted: <AiOutlineHourglass size={20} />,
+  inProgress: <AiOutlineCoffee size={20} />,
+  done: <AiOutlineFire size={20} />
 }
 
 const Stack: React.FC<Props> = (props) => {
@@ -32,7 +46,7 @@ const Stack: React.FC<Props> = (props) => {
   return (
     <div className='stack-container'>
       <div className={`task-header ${props.colorClass}`}>
-        {props.icon}
+        {icons[props.icon]}
         <h2>{props.name}</h2>
       </div>
       {props.children}

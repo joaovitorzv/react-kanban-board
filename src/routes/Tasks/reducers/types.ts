@@ -1,9 +1,10 @@
-import { DraggableProvided, DropResult } from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
 
 enum TaskDispatchTypes {
   ADD_TASK,
   MOVE_TASK,
-  REMOVE_TASK
+  REMOVE_TASK,
+  XESQUE
 }
 
 export interface TaskState {
@@ -16,7 +17,7 @@ export interface StackState {
   [x: string]: {
     name: string;
     colorClass: string;
-    icon: JSX.Element;
+    icon: 'inbox' | 'notStarted' | 'inProgress' | 'done';
     tasks: TaskState[];
   };
 }
