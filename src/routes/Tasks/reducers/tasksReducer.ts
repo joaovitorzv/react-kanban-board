@@ -23,13 +23,16 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
         description: action.task?.description
       })
 
-      return {
+      const addTaskUpdatedState = {
         ...state,
         [action.stackId]: {
           ...state[action.stackId],
           tasks: sourceTasks
         }
       }
+
+      StacksStorage.updateStacks(addTaskUpdatedState)
+      return addTaskUpdatedState
     case TaskDispatchTypes.MOVE_TASK:
       const { source, destination } = action.result!
       if (!destination) return state
@@ -40,7 +43,8 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
         const destTasks = [...destStack.tasks]
         const [removed] = sourceTasks.splice(source.index, 1)
         destTasks.splice(destination.index, 0, removed)
-        return {
+
+        const moveTaskUpdatedState = {
           ...state,
           [source.droppableId]: {
             ...sourceStack,
@@ -51,31 +55,40 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
             tasks: destTasks
           }
         }
+
+        StacksStorage.updateStacks(moveTaskUpdatedState)
+        return moveTaskUpdatedState
       } else {
         const copiedTasks = [...sourceStack.tasks]
         const [removed] = copiedTasks.splice(source.index, 1)
         copiedTasks.splice(destination.index, 0, removed)
 
-        return {
+        const updatedState = {
           ...state,
           [source.droppableId]: {
             ...sourceStack,
             tasks: copiedTasks
           }
         }
+
+        StacksStorage.updateStacks(updatedState)
+        return updatedState
       }
     case TaskDispatchTypes.REMOVE_TASK:
       if (!action.task || !action.stackId) return state
 
       const uptatedTasks = sourceTasks.filter(task => task.id !== action.task?.id)
 
-      return {
+      const removeTaskUpdatedState = {
         ...state,
         [action.stackId]: {
           ...state[action.stackId],
           tasks: uptatedTasks
         }
       }
+
+      StacksStorage.updateStacks(removeTaskUpdatedState)
+      return removeTaskUpdatedState
     default:
       return state
   }
