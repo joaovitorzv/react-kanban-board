@@ -47,19 +47,25 @@ StackState {
   };
 }
 ```
-that's all we have, so now let's imagine that we want to add a a new task, all we want from the `task` component is the `stackId` and all the data of our `task`, the `actions` do their job calling the `dispatch` and passing all the data, inside our `tasksReducer` we just look for the `stackId` on state then update with our new `task` and return the updated state, to delete some `task` is something like that but we also look for the `taskId` and then remove it from the state.
-We also have to mutate the state when user drag and drop the `task` for this our `<DrangDropContext />` provides the `onDragEnd((result) => {})` inside the result we have everything we need, from our result we get the 	`{ source, destination } = result` you might have noticed that  there is the source and destination `<Stack />` you're right, with that in hands we do a if statement verifying if there is a destination if not we just return the current state, but if the source is equal to the destination that means our user is trying to change the task position inside the current stack to do that we do something like that: 
+that's all we have, so now let's imagine that we want to add a a new task, all we want from the `task` component is the `stackId` and all the data of our `task`, the `actions` do their job calling the `dispatch` and passing all the data, inside our `tasksReducer` we just look for the `stackId` on state then update with our new `task` and return the updated state.
+
+to delete some `task` is something like adding but we also look for the `taskId` and then remove it from the state.
+
+We also have to mutate the state when user drag and drop the `task` for this our `<DrangDropContext />` provides the `onDragEnd((result) => {})` inside the result we have everything we need, from our result we get the 	`{ source, destination } = result` you might have noticed that  there is the source and destination `<Stack />` you're right, with that in hands we do a if statement verifying if there is a destination if not we just return the current state.
+
+but if the source is equal to the destination that means our user is trying to change the task position inside the current stack to do that we do something like that: 
 ```ts
   const  copiedTasks = [...sourceStack.tasks]
   const [removed] = copiedTasks.splice(source.index, 1)
   copiedTasks.splice(destination.index, 0, removed)
 ```
 we copy the tasks from the stack state, the `source.index` is the current position of the task on its own `stack`, with the "removed" task we replace it on the array passing it `destination.index` and then return the updated state.
-When a `task` is moved to a different `stack` is something live we did above but we also need to find the source and destination from the `stack` and then we just replace the dragged task to the `destination` inside its `stack` 
+
+When a `task` is moved to a different `stack` is something like we did above but we also need to find the source and destination from the `stack` and then we just replace the dragged task to the `destination` inside its `stack` 
 
 ***persisting the data:*** 
 
-user don't want to lose their added tasks when he close the page or update it, so i created a service that is called `StacksStorage` it has two functions 
+user don't want to lose their added tasks when he close the page or update it, so was created a service that is called `StacksStorage` it has two functions 
 ```ts
 getStacks: () => {
   if (!localStorage.getItem(key)) {
@@ -82,7 +88,7 @@ The `localStorage` is mutated on every dispatch case and all the data is persist
 ### Built With
 * [React](https://reactjs.org/)
 * [Typescript](https://www.typescriptlang.org/)
-* [uuid](https://github.com/uuidjs/uuid)
+* [Uuid](https://github.com/uuidjs/uuid)
 * [Sass](https://sass-lang.com/)
 * [React-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 
