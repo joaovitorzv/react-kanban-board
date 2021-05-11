@@ -5,7 +5,7 @@
   </a>
 
   <p align="center">
-    An kanban board made with React and Typescript
+    An kanban board made with React and Typescript, see <a href='https://taskei.netlify.app/'>live here</a>
   </p>
 </p>
 
