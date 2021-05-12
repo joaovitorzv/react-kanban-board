@@ -32,7 +32,7 @@ For stylize was decided to use node-sass because it's easy to start using and ha
  
 ***State actions:*** 
 
-a `useReducer` was used to handle all the possible tasks actions as add, move and remove, the reducer was created on `/tasks` router component (the top level directory) there is rendered the `<DragDropContext />`, `<Stack />` and `<Task />` to make the life easier calling the reducer `dispatch` was created an object of functions called `actions` and passed it as props to the components. For example the `<Stack />` component (the column of tasks) has a form to add tasks, to handle it we just have to call the `props.actions.addItem(...)` and voila he does the job for us, also for the `<Task />` where we have to handle a delete action, made simple just calling the `props.actions.removeItem()`
+a `useReducer` was used to handle all the possible tasks actions as add, move and remove, the reducer was created on `/tasks` router component (the top level directory) there is rendered the `<DragDropContext />`, `<Stack />` and `<Task />` to make the life easier calling the `reducer dispatch` was created an object of functions called `actions` and passed it as props to the components. For example the `<Stack />` component (the column of tasks) has a form to add tasks, to handle it we just have to call the `props.actions.addItem(...)` and voila he does the job for us, also for the `<Task />` where we have to handle a delete action, made simple just calling the `props.actions.removeItem()`
 
 ***behind the state actions abstraction:*** 
 
