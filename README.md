@@ -9,6 +9,8 @@
   </p>
 </p>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a256a6a2-fda7-4069-bd26-407f22fb594e/deploy-status)](https://taskei.netlify.app/)
+
 
 
 ## About the project
