@@ -1,13 +1,18 @@
 @import '../../styles/vars';
 
 .home-container {
+  display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   background: rgb(255,255,255);
   background: linear-gradient(149deg, rgba(255,255,255,1) 0%, rgba(218,221,250,1) 100%); 
 
   main {
+    height: 100%;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -20,6 +25,7 @@
 
   &__illustration {
     height: 350px;
+    width: 350px;
 
     svg {
       width: 100%;
@@ -44,7 +50,7 @@
 
   &__start {
     text-align: center;
-    margin-top: 7%;
+    padding: 2rem 0;
   }
 
   @media only screen and (max-width: 1150px) {
@@ -60,6 +66,7 @@
 
     &__illustration {
       height: 300px;
+      width: 300px;
     }
 
     &__start {
@@ -86,7 +93,8 @@
     }
 
     &__illustration {
-      height: 200px;
+      height: 250px;
+      width: 300px;
     }
 
     &__presentation {

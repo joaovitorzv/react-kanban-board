@@ -46,7 +46,7 @@ const Stack: React.FC<Props> = (props) => {
   return (
     <div className='stack-container'>
       <div className={`task-header ${props.colorClass}`}>
-        {icons[props.icon]}
+        {(icons[props.icon])}
         <h2>{props.name}</h2>
       </div>
       {props.children}

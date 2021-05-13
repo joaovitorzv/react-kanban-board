@@ -12,9 +12,7 @@ html,
 body {
   font-family: 'Inter', sans-serif;
   background-color: $white-1;
-
-  width: 100vw;
-  height: 100vh;
+  
   color: $dark;
 }
 
@@ -32,7 +30,7 @@ button {
 .link-button {
   padding: 1rem 2.5rem;
   font-size: 18px;
-  border-radius: 10px;
+  border-radius: 4px;
   display: inline-block;
   
   background-color: $dark;
@@ -43,8 +41,8 @@ button {
   &:hover {
     font-weight: bold;
     background-color: $primaryColorDarker;
+    text-decoration: underline;
   }
-
 }
 
 .action-button {

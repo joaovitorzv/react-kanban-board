@@ -60,6 +60,7 @@ function tasksReducer(state: StackState, action: TasksAction): StackState {
         return moveTaskUpdatedState
       } else {
         const copiedTasks = [...sourceStack.tasks]
+        console.log(source.index)
         const [removed] = copiedTasks.splice(source.index, 1)
         copiedTasks.splice(destination.index, 0, removed)
 
